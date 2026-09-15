@@ -1,0 +1,13 @@
+Swagger (当要对后端程序接口测试，为了简化接口中参数的编写，自动生成接口文档)
+使用Swagger你只需要按照它的规范去定义接口及接口相关的信息，就可以做到生成接口文档，以及在线接口调试页面。
+官网：https://swagger.io/
+Knife4j 是为JavaMVC框架集成Swagger生成Api文档的增强解决方案。
+
+1.导入Knife4j依赖
+<dependency>
+<groupld>com.github.xiaoymin</groupld>
+<artifactld>knife4j-spring-boot-starter</artifactld>
+<version>3.0.2</version>
+</dependency>
+2.在WebMvcConfiguration配置类中加入knife4j相关配置
+3.设置静态资源映射，否则接口文档页面无法访问
