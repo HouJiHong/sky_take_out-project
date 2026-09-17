@@ -18,3 +18,9 @@ Knife4j 是为JavaMVC框架集成Swagger生成Api文档的增强解决方案。
 @ApiModel           用在类上，例如entity、DTO、VO
 @ApiModelProperty   用在属性上，描述属性信息
 @ApiOperation       用在方法上，例如controller的方法，说明方法的用途、作用
+
+如果想要要求后端给前端返回的时间类型匹配模板，
+方式一：在属性上加入注解，对日期进行格式化
+@JsonFormat(pattern ="yyyy-MM-dd HH:mm:ss")
+private LocalDateTime updateTime;
+方式二：在WebMvcConfiguration中扩展SpringMVC的消息转换器，统一对日期类型进行格式化处理
