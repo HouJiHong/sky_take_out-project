@@ -1,7 +1,7 @@
 package com.sky.enumeration;
 
 /**
- * 数据库操作类型
+ * 数据库操作类型，用于aop确定sql执行类型
  */
 public enum OperationType {
 
