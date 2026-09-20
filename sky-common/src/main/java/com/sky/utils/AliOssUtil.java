@@ -13,7 +13,7 @@ import java.io.ByteArrayInputStream;
 @AllArgsConstructor
 @Slf4j
 public class AliOssUtil {
-
+    //由于采用了分模块设计，要想使用（注入）这个工具类，不能直接@autowired，而是要配置配置类
     private String endpoint;
     private String accessKeyId;
     private String accessKeySecret;
