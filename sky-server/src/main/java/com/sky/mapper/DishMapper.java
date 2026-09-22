@@ -42,12 +42,26 @@ public interface DishMapper {
      * 删除菜品-查询状态
      * @param id
      */
-    @Select("select dish.status from dish where id = #{id}")
-    Integer selectById(long id);
+    @Select("select id, name, category_id, price, image, description, status, create_time, update_time, create_user, update_user from dish where id = #{id}")
+    Dish selectById(long id);
 
     /**
      * 批量删除菜品-基本数据
      * @param ids
      */
     void deleteByIds(List<Long> ids);
+
+    /**
+     * 修改菜品-查询回显-修改resultMap的封装
+     * @param id
+     * @return
+     */
+    DishVO getInfo(Long id);
+
+    /**
+     * 修改菜品-基础信息
+     * @param dish
+     */
+    @AutoFill(OperationType.UPDATE)
+    void update(Dish dish);
 }

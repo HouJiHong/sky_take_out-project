@@ -26,4 +26,48 @@
                              #{id}
                          </foreach>
     </delete>
+
+
+    <resultMap id="resultMap" type="com.sky.vo.DishVO">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="category_id" property="categoryId"/>
+        <result column="price" property="price"/>
+        <result column="image" property="image"/>
+        <result column="description" property="description"/>
+        <result column="status" property="status"/>
+        <result column="update_time" property="updateTime"/>
+        <collection property="flavors" ofType="com.sky.entity.DishFlavor">
+            <id column="df_if" property="id"/>
+            <result column="df_did" property="dishId"/>
+            <result column="df_name" property="name"/>
+            <result column="df_value" property="value"/>
+        </collection>
+
+    </resultMap>
+
+    <select id="getInfo" resultMap="resultMap">
+        select d.*,
+               df.id df_id,
+               df.dish_id df_did,
+               df.name df_name,
+               df.value df_value
+        from dish d left join dish_flavor df on d.id = df.dish_id
+        where d.id = #{id}
+    </select>
+
+    <update id="update">
+        update dish
+        <set>
+            <if test="name !=null">name = #{name},</if>
+            <if test="categoryId !=null">category_id = #{categoryId},</if>
+            <if test="price !=null">price = #{price},</if>
+            <if test="image !=null">image = #{image},</if>
+            <if test="description !=null">description = #{description},</if>
+            <if test="status !=null">status = #{status},</if>
+            <if test="updateTime !=null">update_time = #{updateTime},</if>
+            <if test="updateUser !=null">update_user = #{updateUser},</if>
+        </set>
+        where id = #{id}
+    </update>
 </mapper>

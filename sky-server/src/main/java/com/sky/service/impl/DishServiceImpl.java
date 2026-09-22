@@ -20,7 +20,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -77,8 +79,8 @@ public class DishServiceImpl implements DishService {
     public void deleteBatch(List<Long> ids) {
         //判断当前菜品是否可删--是否在售
         for(long id:ids){
-            Integer status = dishMapper.selectById(id);
-            if(status == StatusConstant.ENABLE){
+            Dish dish = dishMapper.selectById(id);
+            if(dish.getStatus() == StatusConstant.ENABLE){
                 throw new DeletionNotAllowedException(MessageConstant.DISH_ON_SALE);
             }
         }
@@ -92,5 +94,52 @@ public class DishServiceImpl implements DishService {
         //删除菜品中的口味数据
         dishFlavorMapper.deleteBatch(ids);
 
+    }
+
+    /**
+     * 更新菜品-查询回显
+     * @param id
+     * @return
+     */
+    @Override
+    public DishVO selectByIdWithFlavor(Long id) {
+        /*//法一：分两次查询，一次查菜品基础信息，第二次查口味集合，最后封装
+        Dish dish = dishMapper.selectById(id);
+
+        List<DishFlavor> flavors = dishFlavorMapper.selectById(id);
+        //封装数据
+        DishVO dishVO = new DishVO();
+        BeanUtils.copyProperties(dish,dishVO);
+        dishVO.setFlavors(flavors);
+        return dishVO;*/
+
+        //法二：两表连接查询，只需设置resultMap的封装
+        DishVO dishVO = dishMapper.getInfo(id);
+        return dishVO;
+    }
+
+    /**
+     * 更新菜品-基本消息和口味信息
+     * @param dishDTO
+     */
+    @Transactional(rollbackFor = {Exception.class})
+    @Override
+    public void updateWithFlavor(DishDTO dishDTO) {
+        //修改菜品的基本信息
+        Dish dish = new Dish();
+        BeanUtils.copyProperties(dishDTO,dish);
+
+        dishMapper.update(dish);
+
+        //修改菜品的口味
+        dishFlavorMapper.deleteBatch(Arrays.asList(dishDTO.getId()));
+
+        List<DishFlavor> flavors = dishDTO.getFlavors();
+        if(!CollectionUtils.isEmpty(flavors)){
+            flavors.forEach(flavor -> {
+                flavor.setDishId(dishDTO.getId());
+            });
+            dishFlavorMapper.insertBatch(flavors);
+        }
     }
 }
