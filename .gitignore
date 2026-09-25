@@ -2,6 +2,6 @@
 .idea
 *.iml
 *.class
-*Test.java
+#*Test.java
 **/test/
 *.yml
