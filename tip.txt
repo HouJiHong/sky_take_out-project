@@ -27,7 +27,7 @@ private LocalDateTime updateTime;
 
 
 
-HttpClient(在java中通过编码方式发送http请求)
+HttpClient(在java中通过编码方式发送http请求,在本项目中就是向微信服务器发送请求获取openid，判断用户是否存在)
 是ApacheJakartaCommon下的子项目，可以用来提供高效的、最新的、功能丰富的支持HTTP协议
 的 客户端 编程工具包，并且它支持HTTP协议最新的版本和建议。
 <dependency>
@@ -53,3 +53,8 @@ HttpPost
 https://mp.weixin.qq.com/wxopen/waregister?action=step1
 完善小程序信息
 下载开发者工具
+
+redis除了用于保存店铺的状态，还用于缓解访问数据库压力
+缓存逻辑分析：
+每个分类下的菜品保存一份缓存数据：分类为key，具体菜品为value
+数据库中菜品数据有变更时清理缓存数据
