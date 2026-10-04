@@ -53,5 +53,14 @@ sky:
     access-key-id: ${sky.alioss.access-key-id}
     access-key-secret: ${sky.alioss.access-key-secret}
   wechat:
+    #微信小程序的appid和secret
     appid: ${sky.wechat.appid}
     secret: ${sky.wechat.secret}
+    #微信支付相关参数
+#    mchid: ${sky.wechat.mchid} #商户号
+#    mchSerialNo: ${sky.wechat.mchSerialNo} #商户证书序列号
+#    privateKeyFilePath: ${sky.wechat.privateKeyFilePath} #商户私钥文件
+#    apiV3Key: ${sky.wechat.apiV3Key} #解密apiV3密钥
+#    weChatPayCertFilePath: ${sky.wechat.weChatPayCertFilePath} #微信支付平台证书
+#    notifyUrl: ${sky.wechat.notifyUrl} #微信支付回调地址，微信服务器返回给后端的支付结果
+#    refundNotifyUrl: ${sky.wechat.refundNotifyUrl} #微信退款回调地址
