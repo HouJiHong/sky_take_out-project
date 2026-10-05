@@ -79,3 +79,29 @@ Redis
                 没有缓存数据，调用方法并将方法返回值放到缓存中
 @CachePut       将方法的返回值放到缓存中
 @CacheEvict     将一条或多条数据从缓存中删除
+
+
+SpringTask
+是spring框架提供的任务调度工具，可以按照约定的时间自动执行某个代码逻辑。
+cron表达式
+其实就是一个字符串，通过cron表达式可以定义任务触发的时间
+
+构成规则：分为6或7个域，由空格分隔开，每个域代表一个含义
+每个域的含义分别为：秒、分钟、小时、日、月、周、年（可选）
+如：2022年10月12日上午9点整：0 0 9 12 10 ? 2022
+
+Spring Task使用步骤：
+1.导入maven坐标spring-context(已存在)
+2.启动类添加注解@EnableScheduling开启任务调度
+3.自定义定时任务类
+
+
+WebSocket
+是基于TCP的一种新的网络协议。它实现了浏览器与服务器全双工通信—浏览器和服务器只需要完成
+一次握手，两者之间就可以创建持久性的连接，并进行双向数据传输。
+
+实现步骤：
+1.直接使用websocket.html页面作为WebSocket客户端
+2.导入WebSocket的maven坐标
+3.导入WebSocket服务端组件WebSocketServer，用于和客户端通信
+4.导入配置类WebSocketConfiguration，注册WebSocket的服务端组件
