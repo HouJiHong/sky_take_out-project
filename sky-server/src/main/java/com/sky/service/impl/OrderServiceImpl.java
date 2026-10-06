@@ -1,5 +1,6 @@
 package com.sky.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.sky.constant.MessageConstant;
 import com.sky.context.BaseContext;
@@ -14,6 +15,8 @@ import com.sky.service.OrderService;
 import com.sky.utils.WeChatPayUtil;
 import com.sky.vo.OrderPaymentVO;
 import com.sky.vo.OrderSubmitVO;
+import com.sky.websocket.WebSocketServer;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,8 +25,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+@Slf4j
 @Service
 public class OrderServiceImpl implements OrderService {
     @Autowired
@@ -38,6 +44,11 @@ public class OrderServiceImpl implements OrderService {
     private WeChatPayUtil weChatPayUtil;
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private WebSocketServer webSocketServer;
+
+
 
     /**
      * 用户下单
@@ -86,6 +97,18 @@ public class OrderServiceImpl implements OrderService {
 
         orderDetailMapper.insertBatch(orderDetails);
 
+        //支付成功后，向浏览器推送消息 type 1表示来单2表示催单，orderId，content
+        Map<String, Object> map = new HashMap<>();
+        map.put("type",1);
+        map.put("orderId",orders.getId());
+        map.put("content","订单号："+orders.getNumber());
+
+        String jsonString = JSON.toJSONString(map);
+        log.info("来单了");
+        webSocketServer.sendToAllClient(jsonString);
+
+
+
         //清空购物车
         shoppingCartMapper.deleteByUserId(userId);
 
@@ -95,6 +118,9 @@ public class OrderServiceImpl implements OrderService {
                 .orderTime(orders.getOrderTime())
                 .orderAmount(orders.getAmount())
                 .build();
+
+
+
 
         return orderSubmitVO;
     }
@@ -150,5 +176,41 @@ public class OrderServiceImpl implements OrderService {
                 .build();
 
         orderMapper.update(orders);
+
+        //支付成功后，向浏览器推送消息 type 1表示来单2表示催单，orderId，content
+        Map<String, Object> map = new HashMap<>();
+        map.put("type",1);
+        map.put("orderId",ordersDB.getId());
+        map.put("content","订单号："+outTradeNo);
+
+        String jsonString = JSON.toJSONString(map);
+        webSocketServer.sendToAllClient(jsonString);
+
+
+    }
+
+    /**
+     * 客户催单
+     * @param id
+     */
+    @Override
+    public void reminder(Long id) {
+        //根据id查询订单
+        Orders order = orderMapper.getById(id);
+
+        //校验订单是否存在
+        if(order==null){
+            throw new OrderBusinessException(MessageConstant.ORDER_NOT_FOUND);
+        }
+        //向浏览器推送消息 type 1表示来单2表示催单，orderId，content
+        Map<String, Object> map = new HashMap<>();
+        map.put("type",2);
+        map.put("orderId",id);
+        map.put("content",order.getNumber());
+
+
+        String jsonString = JSON.toJSONString(map);
+        webSocketServer.sendToAllClient(jsonString);
+
     }
 }
