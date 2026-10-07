@@ -18,7 +18,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 
 /**
- * 支付回调相关接口,由微信服务器向后端调用
+ * 支付回调相关接口,由微信服务器向后端调用，微信发起的回调地址由后端配置文件在下单的时候从工具类wechatpayutil
+ * 发送过去,只有当此接口接收到微信的回调，才会发起支付成功
  */
 @RestController
 @RequestMapping("/notify")

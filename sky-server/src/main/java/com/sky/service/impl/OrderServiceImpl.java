@@ -97,7 +97,7 @@ public class OrderServiceImpl implements OrderService {
 
         orderDetailMapper.insertBatch(orderDetails);
 
-        //支付成功后，向浏览器推送消息 type 1表示来单2表示催单，orderId，content
+        /*//支付成功后，向浏览器推送消息 type 1表示来单2表示催单，orderId，content
         Map<String, Object> map = new HashMap<>();
         map.put("type",1);
         map.put("orderId",orders.getId());
@@ -105,7 +105,7 @@ public class OrderServiceImpl implements OrderService {
 
         String jsonString = JSON.toJSONString(map);
         log.info("来单了");
-        webSocketServer.sendToAllClient(jsonString);
+        webSocketServer.sendToAllClient(jsonString);*/
 
 
 
@@ -140,12 +140,15 @@ public class OrderServiceImpl implements OrderService {
         User user = userMapper.getById(userId);
 
         //调用微信支付接口，生成预支付交易单
-        JSONObject jsonObject = weChatPayUtil.pay(
+        /*JSONObject jsonObject = weChatPayUtil.pay(
                 ordersPaymentDTO.getOrderNumber(), //商户订单号
                 new BigDecimal(0.01), //支付金额，单位 元
                 "苍穹外卖订单", //商品描述
                 user.getOpenid() //微信用户的openid
-        );
+        );*/
+
+        //去掉微信支付功能，直接创建一个空json
+        JSONObject jsonObject = new JSONObject();
 
         if (jsonObject.getString("code") != null && jsonObject.getString("code").equals("ORDERPAID")) {
             throw new OrderBusinessException("该订单已支付");

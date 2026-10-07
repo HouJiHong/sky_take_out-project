@@ -137,6 +137,7 @@ public class WeChatPayUtil {
         jsonObject.put("mchid", weChatProperties.getMchid());
         jsonObject.put("description", description);
         jsonObject.put("out_trade_no", orderNum);
+        //回调地址:返回给后端
         jsonObject.put("notify_url", weChatProperties.getNotifyUrl());
 
         JSONObject amount = new JSONObject();

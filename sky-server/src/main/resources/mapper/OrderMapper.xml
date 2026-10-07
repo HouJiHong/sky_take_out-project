@@ -27,4 +27,23 @@
         </set>
         where id = #{id}
     </update>
+
+
+    <select id="sumByMap" resultType="java.lang.Double">
+        select sum(amount) from orders
+        <where>
+            <!--suppress XmlUnresolvedReference -->
+            <if test="begin!=null">
+                and order_time &gt; #{begin}
+            </if>
+            <!--suppress XmlUnresolvedReference -->
+            <if test="end!=null">
+                and order_time &lt; #{end}
+            </if>
+            <!--suppress XmlUnresolvedReference -->
+            <if test="status!=null">
+                and status = #{status}
+            </if>
+        </where>
+    </select>
 </mapper>
