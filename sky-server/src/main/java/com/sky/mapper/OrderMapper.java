@@ -1,11 +1,13 @@
 package com.sky.mapper;
 
+import com.sky.dto.GoodsSalesDTO;
 import com.sky.entity.Orders;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -55,4 +57,19 @@ public interface OrderMapper {
      * @return
      */
     Double sumByMap(Map hashMap);
+
+    /**
+     * 动态查询每日订单数
+     * @param map
+     * @return
+     */
+    Integer countByMap(HashMap<String, Object> map);
+
+    /**
+     * 统计销量排行前十
+     * @param begin
+     * @param end
+     * @return
+     */
+    List<GoodsSalesDTO> getSalesTop(LocalDateTime begin,LocalDateTime end);
 }
