@@ -64,3 +64,7 @@ sky:
 #    weChatPayCertFilePath: ${sky.wechat.weChatPayCertFilePath} #微信支付平台证书
 #    notifyUrl: ${sky.wechat.notifyUrl} #微信支付回调地址，微信服务器返回给后端的支付结果
 #    refundNotifyUrl: ${sky.wechat.refundNotifyUrl} #微信退款回调地址
+  shop:
+    address: ${sky.shop.address}
+  baidu:
+    ak: ${sky.baidu.ak}

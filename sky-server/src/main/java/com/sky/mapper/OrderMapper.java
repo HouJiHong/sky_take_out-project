@@ -76,9 +76,18 @@ public interface OrderMapper {
     List<GoodsSalesDTO> getSalesTop(LocalDateTime begin,LocalDateTime end);
 
     /**
-     * 根据用户id和订单状态分页查询
+     * 根据条件分页查询
      * @param ordersPageQueryDTO
      * @return
      */
     Page<Orders> pageQuery(OrdersPageQueryDTO ordersPageQueryDTO);
+
+
+    /**
+     * 各个状态订单数量统计
+     * @param status
+     * @return
+     */
+    @Select("select count(id) from orders where status = #{status}")
+    Integer countStatus(Integer status);
 }

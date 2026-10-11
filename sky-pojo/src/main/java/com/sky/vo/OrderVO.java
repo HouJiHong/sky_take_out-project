@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 import java.util.List;
 
+//注意此类继承了Orders实体类，所以此类的属性也包含Orders的属性
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
