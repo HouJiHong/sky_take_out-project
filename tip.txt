@@ -105,3 +105,27 @@ WebSocket
 2.导入WebSocket的maven坐标
 3.导入WebSocket服务端组件WebSocketServer，用于和客户端通信
 4.导入配置类WebSocketConfiguration，注册WebSocket的服务端组件
+
+
+ApachePOI
+是一个处理MiscrosoftOffice各种文件格式的开源项目。简单来说就是，我们可以使用POI在Java程
+序中对MiscrosoftOffice各种文件进行读写操作。
+一般情况下，POl都是用于操作Excel文件。
+
+Apache POI的maven坐标：
+<dependency>
+<groupid>org.apache.poi</groupId>
+<artifactId>poi</artifactId>
+<version>3.16</version>
+</dependency>
+<dependency>
+<groupid>org.apache.poi</groupId>
+<artifactId>poi-ooxml</artifactId>
+<version>3.16</version>
+</dependency>
+
+实现步骤：
+1.设计Excel模板文件
+2.查询近30天的运营数据
+3.将查询到的运营数据写入模板文件
+4.通过输出流将Excel文件下载到客户端浏览器
